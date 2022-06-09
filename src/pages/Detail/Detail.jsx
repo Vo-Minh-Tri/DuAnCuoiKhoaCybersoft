@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AntdDatePicker from "./AntdDatePicker";
+import { useDispatch, useSelector } from "react-redux";
+import { layThongTinChiTietPhong } from "../../redux/actions/QuanLyPhongAction";
 
-export default function Detail() {
+export default function Detail(props) {
+  const chiTietPhong = useSelector(
+    (state) => state.QuanLyPhongReducer.chiTietPhong
+  );
+  // const locationId = useSelector(
+  //   (state) => state.QuanLyPhongReducer.chiTietPhong.locationId
+  // );
+
+  // locationId nó lấy từ chi tiết phòng ra mà, chứ sao lại dùng useSelector v ta
+  const { locationId } = chiTietPhong; // chỗ này là bóc tách phần tử spread operator, coi lại cái này nha
+
+  console.log(locationId?.image); // chỗ này cần optional channing vì lúc đầu cái chi tiết phòng nó chưa có do đợi lấy từ API về, cái nào mà đợi lấy từ API về thì cho nó cái ? khỏi nó báo lỗi
+  // console.log({ chiTietPhong });
+  // console.log("props", props);
+
+  // ok rồi đó
+
+  const dispatch = useDispatch();
+  let id = props.match.params.id;
+
+  useEffect(() => {
+    dispatch(layThongTinChiTietPhong(id));
+  }, []);
+
   return (
     <section className="container">
       {/* header-detail */}
       <div className="header-detail pt-6">
-        <h1 className="font-semibold text-3xl">
-          Biệt thự Luna tại Sumberkima Hill Retreat
-        </h1>
+        <h1 className="font-semibold text-3xl">{chiTietPhong.name}</h1>
         <div className="flex justify-between mt-2 text-sm">
           <div className="flex items-center">
             <span className="font-semibold">
               <i className="fa fa-star"></i>
               <span> 5,0 · </span>
               <button>
-                <span className="font-semibold underline">8 đánh giá</span>
+                <span className="font-semibold underline">
+                  {locationId?.valueate} đánh giá
+                </span>
               </button>
             </span>
 
@@ -26,7 +52,7 @@ export default function Detail() {
             <span className="mx-2 mr-2">.</span>
             <button>
               <span className="font-semibold underline">
-                Pemuteran, Bali, Indonesia
+                {locationId?.name}, {locationId?.province}, {locationId?.country}
               </span>
             </button>
           </div>
@@ -45,25 +71,21 @@ export default function Detail() {
 
       {/* image */}
       <div>
-        <img
-          className="w-full rounded-2xl"
-          src="https://airbnb.cybersoft.edu.vn/public/temp/1636703587023_ve-dep-bien-nha-trang.jpg"
-          alt=""
-        />
+        <img className="w-full rounded-2xl" src={chiTietPhong.image} alt="" />
       </div>
 
       {/* content-detail */}
-      <div className="flex ">
+      <div className="flex justify-between">
         <div className="w-7/12">
           <div className="header-content pt-12 pb-6">
-            <h3 className="text-2xl font-semibold">
-              Toàn bộ Biệt thự Luna tại Sumberkima Hill Retreat
+            <h3 className="text-2xl font-semibold mb-2">
+              Toàn bộ căn hộ {chiTietPhong.name}
             </h3>
-            <div>
-              <span>2 khách</span>
-              <span> · 1 phòng ngủ</span>
-              <span> · 1 giường</span>
-              <span> · 1 phòng tắm</span>
+            <div className="text-base">
+              <span>{chiTietPhong.guests} khách</span>
+              <span> · {chiTietPhong.bedRoom} phòng ngủ</span>
+              <span> · {chiTietPhong.bedRoom} giường</span>
+              <span> · {chiTietPhong.bath} phòng tắm</span>
             </div>
           </div>
           <hr />
@@ -108,8 +130,8 @@ export default function Detail() {
               Nơi này có những gì cho bạn
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div>elevator</div>
-              <div>hotTub</div>
+              <div>{chiTietPhong.elevator}elevator</div>
+              <div>{chiTietPhong.hotTub}hotTub</div>
               <div>pool</div>
               <div>indoorFireplace</div>
               <div>dryer</div>
@@ -122,26 +144,55 @@ export default function Detail() {
           </div>
         </div>
 
+        {/* Đăt phòng */}
         <div className="w-4/12 ml-2">
           <div className="mt-12 p-6 border border-solid rounded-lg">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-6">
               <div>
-                <span>$430</span>
-                <span>/đêm</span>
+                <span className="text-2xl font-semibold">{chiTietPhong.price}đ</span>
+                <span className="text-base">/đêm</span>
               </div>
               <div>
                 <i className="fa fa-star"></i>
-                <span> 4,95 · </span>
-                <span>199 đánh giá</span>
+                <span className="font-semibold"> 4,95 · </span>
+                <span
+                  className="underline font-semibold"
+                  style={{ color: "#717171" }}
+                >
+                  199 đánh giá
+                </span>
               </div>
             </div>
-            <div className="border-2 border-solid rounded-lg">
-                <button className="flex">
-                  <div>
-                    <p>NHẬN PHÒNG</p>
-                    <p>7/6/2022</p>
-                  </div>
-                </button>
+            <div className="mb-4">
+              <button className="w-full">
+                <AntdDatePicker></AntdDatePicker>
+              </button>
+            </div>
+            <button
+              className="btn-airbnb w-full font-semibold text-base"
+              style={{ padding: "14px 24px", borderRadius: "8px" }}
+            >
+              Đặt phòng
+            </button>
+
+            <div className="mt-4 text-center">Bạn vẫn chưa bị trừ tiền</div>
+
+            <div className="mt-6 text-base">
+              <div className="flex justify-between">
+                <div className="underline">{chiTietPhong.price}đ x 5 đêm</div>
+                <div>$2.150</div>
+              </div>
+              <div className="pt-4 flex justify-between">
+                <div className="underline">Phí dịch vụ</div>
+                <div>$273</div>
+              </div>
+              <div
+                className="mt-6 pt-6 font-semibold text-base flex justify-between"
+                style={{ borderTop: "1px solid rgb(221, 221, 221)" }}
+              >
+                <div>Tổng trước thuế</div>
+                <div>$1.884</div>
+              </div>
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ export default function HeaderLayout() {
                 <p>Thêm khách</p>
               </div>
               <div className="pr-2.5">
-                <button className="btn btn-danger">
+                <button className="btn btn-airbnb">
                   <i className="fa fa-search"></i>
                   <span className="pl-2">Tìm kiếm</span>
                 </button>

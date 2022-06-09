@@ -25,7 +25,7 @@
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.btn-danger {
+.btn-airbnb {
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
