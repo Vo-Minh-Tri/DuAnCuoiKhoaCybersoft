@@ -1,24 +1,19 @@
 import React, { useEffect } from "react";
-import AntdDatePicker from "./AntdDatePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { layThongTinChiTietPhong } from "../../redux/actions/QuanLyPhongAction";
+import TienNghi from "./TienNghi";
+import DanhGia from "./DanhGia";
+import { BookingComponent } from "../../components/Detail_Component/BookingComponent";
 
 export default function Detail(props) {
   const chiTietPhong = useSelector(
     (state) => state.QuanLyPhongReducer.chiTietPhong
   );
-  // const locationId = useSelector(
-  //   (state) => state.QuanLyPhongReducer.chiTietPhong.locationId
-  // );
 
-  // locationId nó lấy từ chi tiết phòng ra mà, chứ sao lại dùng useSelector v ta
   const { locationId } = chiTietPhong; // chỗ này là bóc tách phần tử spread operator, coi lại cái này nha
 
-  console.log(locationId?.image); // chỗ này cần optional channing vì lúc đầu cái chi tiết phòng nó chưa có do đợi lấy từ API về, cái nào mà đợi lấy từ API về thì cho nó cái ? khỏi nó báo lỗi
+  // console.log(locationId?.image); // chỗ này cần optional channing vì lúc đầu cái chi tiết phòng nó chưa có do đợi lấy từ API về, cái nào mà đợi lấy từ API về thì cho nó cái ? khỏi nó báo lỗi
   // console.log({ chiTietPhong });
-  // console.log("props", props);
-
-  // ok rồi đó
 
   const dispatch = useDispatch();
   let id = props.match.params.id;
@@ -52,7 +47,8 @@ export default function Detail(props) {
             <span className="mx-2 mr-2">.</span>
             <button>
               <span className="font-semibold underline">
-                {locationId?.name}, {locationId?.province}, {locationId?.country}
+                {locationId?.name}, {locationId?.province},{" "}
+                {locationId?.country}
               </span>
             </button>
           </div>
@@ -113,110 +109,25 @@ export default function Detail(props) {
           </div>
           <hr />
           <div className="py-8">
-            <p>
-              Biệt thự này bao bọc tất cả những gì tuyệt vời về Ubud trong cùng
-              một nơi, thiết kế cực kỳ rộng lớn và rộng rãi của nó chi phối tính
-              thẳng đứng của cấu trúc tổng thể của nó. Với 6 phòng ngủ nằm ở các
-              phần khác nhau của ngôi nhà, biệt thự này phát triển mạnh về không
-              gian rộng rãi và hoàn hảo cho các cuộc tụ họp gia đình của bạn.
-              Trong mỗi phần của ngôi nhà, bạn sẽ tìm thấy những luồng gió lạnh
-              tự nhiên thổi qua và chảy qua toàn bộ biệt thự mà không cần nỗ
-              lực.
-            </p>
+            <p>{chiTietPhong.description}</p>
           </div>
           <hr />
-          <div className="py-12">
-            <h3 className="text-2xl font-semibold pb-6">
-              Nơi này có những gì cho bạn
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>{chiTietPhong.elevator}elevator</div>
-              <div>{chiTietPhong.hotTub}hotTub</div>
-              <div>pool</div>
-              <div>indoorFireplace</div>
-              <div>dryer</div>
-              <div>gym</div>
-              <div>kitchen</div>
-              <div>wifi</div>
-              <div>heating</div>
-              <div>cableTV</div>
-            </div>
-          </div>
+          <TienNghi chiTietPhong={chiTietPhong} />
         </div>
 
-        {/* Đăt phòng */}
+        {/* Booking component */}
         <div className="w-4/12 ml-2">
-          <div className="mt-12 p-6 border border-solid rounded-lg">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <span className="text-2xl font-semibold">{chiTietPhong.price}đ</span>
-                <span className="text-base">/đêm</span>
-              </div>
-              <div>
-                <i className="fa fa-star"></i>
-                <span className="font-semibold"> 4,95 · </span>
-                <span
-                  className="underline font-semibold"
-                  style={{ color: "#717171" }}
-                >
-                  199 đánh giá
-                </span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <button className="w-full">
-                <AntdDatePicker></AntdDatePicker>
-              </button>
-            </div>
-            <button
-              className="btn-airbnb w-full font-semibold text-base"
-              style={{ padding: "14px 24px", borderRadius: "8px" }}
-            >
-              Đặt phòng
-            </button>
-
-            <div className="mt-4 text-center">Bạn vẫn chưa bị trừ tiền</div>
-
-            <div className="mt-6 text-base">
-              <div className="flex justify-between">
-                <div className="underline">{chiTietPhong.price}đ x 5 đêm</div>
-                <div>$2.150</div>
-              </div>
-              <div className="pt-4 flex justify-between">
-                <div className="underline">Phí dịch vụ</div>
-                <div>$273</div>
-              </div>
-              <div
-                className="mt-6 pt-6 font-semibold text-base flex justify-between"
-                style={{ borderTop: "1px solid rgb(221, 221, 221)" }}
-              >
-                <div>Tổng trước thuế</div>
-                <div>$1.884</div>
-              </div>
-            </div>
-          </div>
+          <BookingComponent
+            chiTietPhong={chiTietPhong}
+            locationId={locationId}
+            id={id}
+          />
         </div>
       </div>
       <hr />
+
       {/* Đánh giá */}
-      <div className="py-12">
-        <div className="flex items-center font-semibold mb-8">
-          <i className="fa fa-star"></i>
-          <span className="text-2xl ml-2">4,90 · 52 đánh giá</span>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>Mức độ sạch sẽ</div>
-          <div>Độ chính xác</div>
-          <div>Giao tiếp</div>
-          <div>Vị trí</div>
-          <div>Nhận phòng</div>
-          <div>Giá trị</div>
-        </div>
-        <div className="grid grid-cols-2">
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+      <DanhGia locationId={locationId} id={id} />
     </section>
   );
 }

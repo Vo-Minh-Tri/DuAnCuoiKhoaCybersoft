@@ -1,5 +1,6 @@
 import { qlyPhongService } from "../../services/QuanLyPhongService";
 import {
+  DAT_PHONG_ACTION,
   SET_CHI_TIET_PHONG,
   SET_DANH_SACH_PHONG,
 } from "./type_action/QuanLyPhongType";
@@ -8,13 +9,13 @@ export const layDanhSachPhongAction = () => {
   return async (dispatch) => {
     try {
       const result = await qlyPhongService.layDanhSachPhong();
-      console.log("result", result);
+      // console.log("result", result);
       dispatch({
         type: SET_DANH_SACH_PHONG,
         arrRoom: result.data,
       });
     } catch (error) {
-      console.log("error:", error);
+      console.log("ERROR:", error);
     }
   };
 };
@@ -31,6 +32,28 @@ export const layThongTinChiTietPhong = (id) => {
       });
     } catch (err) {
       console.log("ERROR", err.reponse?.data);
+    }
+  };
+};
+
+export const datPhongAction = (thongTinDatPhong) => {
+  return async (dispatch) => {
+    try {
+      const result = await qlyPhongService.datPhong(thongTinDatPhong);
+      console.log({ result });
+    } catch (error) {
+      console.log("ERROR:", error);
+    }
+  };
+};
+
+export const taoPhongAction = (formData) => {
+  return async () => {
+    try {
+      const result = await qlyPhongService.taoPhongChoThue(formData);
+      console.log({ result });
+    } catch (error) {
+      console.log("ERROR:", error);
     }
   };
 };
