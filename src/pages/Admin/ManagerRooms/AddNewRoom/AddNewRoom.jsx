@@ -1,22 +1,28 @@
-import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Switch,
-  TreeSelect,
-} from "antd";
+import { Form, Input, InputNumber, Select, Switch } from "antd";
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { taoPhongAction } from "../../../../redux/actions/QuanLyPhongAction";
+import { layDanhSachViTriAction } from "../../../../redux/actions/QuanLyViTriAction";
+
+const { Option } = Select;
 
 export default function AddNewRoom() {
+  const { arrViTri } = useSelector((state) => state.QuanLyViTriReducer);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(layDanhSachViTriAction());
+  }, []);
+  const renderViTri = () => {
+    return arrViTri.map((viTri, index) => {
+      return (
+        <Option value={viTri._id} key={index}>
+          {viTri.province}
+        </Option>
+      );
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -44,24 +50,11 @@ export default function AddNewRoom() {
       // for (let key in values) {
       //   return formData.append(key, values[key]);
       // }
-      // console.log({ formData });
       dispatch(taoPhongAction(values));
     },
   });
 
-  const [componentSize, setComponentSize] = useState("default");
-
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
-
   const handleSwitch = (name) => {
-    return (values) => {
-      formik.setFieldValue(name, values);
-    };
-  };
-
-  const handleInputNumber = (name) => {
     return (values) => {
       formik.setFieldValue(name, values);
     };
@@ -77,36 +70,24 @@ export default function AddNewRoom() {
         span: 14,
       }}
       layout="horizontal"
-      initialValues={{
-        size: componentSize,
-      }}
-      onValuesChange={onFormLayoutChange}
-      size={componentSize}
     >
-      {/* <Form.Item label="Form Size" name="size">
-          <Radio.Group>
-            <Radio.Button value="small">Small</Radio.Button>
-            <Radio.Button value="default">Default</Radio.Button>
-            <Radio.Button value="large">Large</Radio.Button>
-          </Radio.Group>
-        </Form.Item> */}
       <Form.Item label="Name">
         <Input name="name" onChange={formik.handleChange} />
       </Form.Item>
       <Form.Item label="Guests">
-        <InputNumber onChange={handleInputNumber("guests")} min={1} max={4} />
+        <InputNumber onChange={handleSwitch("guests")} min={1} max={4} />
       </Form.Item>
       <Form.Item label="BedRoom">
-        <InputNumber onChange={handleInputNumber("bedRoom")} min={1} max={4} />
+        <InputNumber onChange={handleSwitch("bedRoom")} min={1} max={4} />
       </Form.Item>
       <Form.Item label="Bath">
-        <InputNumber onChange={handleInputNumber("bath")} min={1} max={4} />
+        <InputNumber onChange={handleSwitch("bath")} min={1} max={4} />
       </Form.Item>
       <Form.Item label="Description">
         <Input name="description" onChange={formik.handleChange} />
       </Form.Item>
       <Form.Item label="Price">
-        <InputNumber onChange={handleInputNumber("price")} />
+        <InputNumber onChange={handleSwitch("price")} />
       </Form.Item>
       <Form.Item label="Elevator">
         <Switch onChange={handleSwitch("elevator")} />
@@ -141,9 +122,18 @@ export default function AddNewRoom() {
       <Form.Item label="Hình ảnh">
         <Input name="image" onChange={formik.handleChange} />
       </Form.Item>
-      <Form.Item label="LocationId">
-        <Input name="locationId" onChange={formik.handleChange} />
+      <Form.Item name="locationId" label="Location">
+        <Select
+          style={{
+            width: "100%",
+          }}
+          onChange={handleSwitch("locationId")}
+          allowClear
+        >
+          {renderViTri()}
+        </Select>
       </Form.Item>
+
       <div className="text-center">
         <button
           type="submit"

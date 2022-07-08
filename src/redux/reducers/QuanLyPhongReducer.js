@@ -1,8 +1,8 @@
 import {
   SET_CHI_TIET_PHONG,
   SET_DANH_SACH_PHONG_FILTER,
-} from "../actions/type_action/QuanLyPhongType";
-import { SET_DANH_SACH_PHONG } from "../actions/type_action/QuanLyPhongType";
+} from "../type_action/QuanLyPhongType";
+import { SET_DANH_SACH_PHONG } from "../type_action/QuanLyPhongType";
 
 const stateDefault = {
   arrRoom: [],

@@ -1,10 +1,34 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { layThongTinChiTietNguoiDungAction } from "../../redux/actions/QuanLyNguoiDungAction";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, message, Upload } from "antd";
+import { USER_LOGIN } from "../../util/settings/config";
 
 export default function Profile(props) {
+  const userId = JSON.parse(localStorage.getItem(USER_LOGIN));
+  console.log({ userId });
+
+  const restProps = {
+    name: "file",
+    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    headers: {
+      authorization: "authorization-text",
+    },
+
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
   const { user } = useSelector((state) => state.QuanLyNguoiDungReducer);
   const dispatch = useDispatch();
   const handleAvatar = () => {
@@ -17,9 +41,9 @@ export default function Profile(props) {
   };
   useEffect(() => {
     // Lấy thông tin param từ url
-    let { id } = props.match.params;
-    console.log("id", id);
-    const action = layThongTinChiTietNguoiDungAction(id);
+    // let { id } = props.match.params;
+    // console.log("id", id);
+    const action = layThongTinChiTietNguoiDungAction();
     dispatch(action);
   }, []);
   return (
@@ -28,18 +52,15 @@ export default function Profile(props) {
         <div className="flex flex-col items-center justify-center">
           <img
             className="rounded-full text-center"
-            src={handleAvatar()}
+            src="./download.jpg"
             alt="..."
             width={150}
           />
 
           <div className="mt-3">
-            <NavLink
-              className="text-black font-semibold underline hover:text-black"
-              to={`/editphoto`}
-            >
-              Cập nhật ảnh
-            </NavLink>
+            <Upload {...restProps}>
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            </Upload>
           </div>
         </div>
         <div className="mt-10">
@@ -59,7 +80,7 @@ export default function Profile(props) {
       </div>
       <div className="basis-2/3 px-5">
         <p className="text-4xl font-semibold mb-3">
-          Xin chào, tôi là {user.name}
+          Xin chào, tôi là {userId.name}
         </p>
         <p className="text-sm text-slate-500">Bắt đầu tham gia vào 2022</p>
         <p className="underline font-semibold">Chỉnh sửa hồ sơ</p>

@@ -1,5 +1,5 @@
 import { xthucNguoiDungService } from "../../services/XacThucNguoiDungService";
-import { DANG_NHAP_ACTION } from "./type_action/XacThucNguoiDungType";
+import { DANG_NHAP_ACTION } from "../type_action/XacThucNguoiDungType";
 import { history } from "../../App";
 
 export const dangNhapAction = (thongTinDangNhap) => {

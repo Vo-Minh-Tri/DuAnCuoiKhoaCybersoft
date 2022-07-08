@@ -1,4 +1,4 @@
-import { SET_DANH_SACH_DANH_GIA } from "../actions/type_action/QuanLyDanhGiaType";
+import { SET_DANH_SACH_DANH_GIA } from "../type_action/QuanLyDanhGiaType";
 
 const stateDefault = {
   arrDanhGia: [],

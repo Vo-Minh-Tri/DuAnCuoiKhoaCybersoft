@@ -12,10 +12,11 @@ import BookingTemplate from "./templates/BookingTemplate/BookingTemplate";
 import UserTemplate from "./templates/UserTemplate/UserTemplate";
 import Register from "./pages/Register/Register";
 import DateRangePicker from "./components/Detail_Component/DateRangePicker";
-import AdminTemplate from "./templates/AdminTemplate/AdminTemplate";
-import QuanLyThongTinPhong from "./pages/Admin/QuanLyPhong/QuanLyThongTinPhong";
-import AddNewRoom from "./pages/Admin/QuanLyPhong/ThemPhong/AddNewRoom";
+import AddNewRoom from "./pages/Admin/ManagerRooms/AddNewRoom/AddNewRoom";
 import Profile from "./pages/Profile/Profile";
+import AdminTemplateNew from "./templates/AdminTemplate/AdminTemplateNew";
+import EditRoom from "./pages/Admin/ManagerRooms/EditRoom/EditRoom";
+import ManagerRooms from "./pages/Admin/ManagerRooms/ManagerRooms";
 
 export const history = createBrowserHistory();
 
@@ -30,23 +31,23 @@ function App() {
           path="/detail/:id"
           Component={Detail}
         ></HomeTemplate>
-       
 
         <Route exact path="/register" component={Register} />
         <Route exact path="/date" component={DateRangePicker} />
 
-        <AdminTemplate exact path="/admin" Component={QuanLyThongTinPhong} />
-        <AdminTemplate exact path="/admin/room" Component={QuanLyThongTinPhong} />
-        <AdminTemplate exact path="/admin/user" Component={QuanLyThongTinPhong} />
-        <AdminTemplate
+        <AdminTemplateNew exact path="/admin" Component={ManagerRooms} />
+        <AdminTemplateNew exact path="/admin/rooms" Component={ManagerRooms} />
+        <AdminTemplateNew exact path="/admin/user" Component={ManagerRooms} />
+        <AdminTemplateNew
           exact
-          path="/admin/room/newroom"
+          path="/admin/rooms/addnew"
           Component={AddNewRoom}
         />
+        <AdminTemplateNew exact path="/admin/rooms/edit/:id" Component={EditRoom} />
 
         <UserTemplate exact path="/login" Component={Login} />
         <UserTemplate exact path="/register" Component={Register} />
-        <UserTemplate exact path="/profile/:id" Component={Profile} />
+        <UserTemplate exact path="/profile" Component={Profile} />
 
         <BookingTemplate path="/booking/:id" Component={Booking} />
       </Switch>

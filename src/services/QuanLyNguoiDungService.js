@@ -4,8 +4,8 @@ export class QuanLyNguoiDungService extends baseService {
   constructor() {
     super();
   }
-  layThongTinUser = (id) => {
-    return this.get(`api/users/${id}`);
+  layThongTinUser = () => {
+    return this.get(`api/users`);
   };
 }
 export const qlyNguoiDungService = new QuanLyNguoiDungService();

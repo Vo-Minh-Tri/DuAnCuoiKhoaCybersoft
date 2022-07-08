@@ -1,5 +1,5 @@
 import { ACESSTOKEN, USER_LOGIN } from "../../util/settings/config";
-import { DANG_NHAP_ACTION } from "../actions/type_action/XacThucNguoiDungType";
+import { DANG_NHAP_ACTION } from "../type_action/XacThucNguoiDungType";
 
 let user = {};
 if (localStorage.getItem(USER_LOGIN)) {

@@ -1,4 +1,4 @@
-import { GET_USER_DETAIL } from "../actions/type_action/QuanLyNguoiDungType";
+import { GET_USER_DETAIL } from "../type_action/QuanLyNguoiDungType";
 
 const stateDefault = {
   user: {},

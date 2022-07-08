@@ -4,13 +4,11 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useDispatch, useSelector } from "react-redux";
 import { layDanhSachPhongAction } from "../../../redux/actions/QuanLyPhongAction";
-import { EditOutlined } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
 import { history } from "../../../App";
+import EditRoom from "./EditRoom/EditRoom";
 
-export default function QuanLyThongTinPhong() {
+export default function ManagerRooms() {
   const { arrRoom } = useSelector((state) => state.QuanLyPhongReducer);
-  console.log("dsPhong", arrRoom);
 
   const dispatch = useDispatch();
 
@@ -133,9 +131,8 @@ export default function QuanLyThongTinPhong() {
     {
       title: "Mã Phòng",
       dataIndex: "_id",
-      key: "_id",
       width: "15%",
-      ...getColumnSearchProps("_id"),
+      align: "center",
       sorter: (a, b) => {
         let idA = a._id.toLowerCase().trim();
         let idB = b._id.toLowerCase().trim();
@@ -150,11 +147,14 @@ export default function QuanLyThongTinPhong() {
       title: "Tên Phòng",
       dataIndex: "name",
       width: "20%",
+      align: "center",
       ...getColumnSearchProps("name"),
     },
     {
       title: "Hình ảnh",
       dataIndex: "image",
+      width: "25%",
+      align: "center",
       render: (text, room, index) => {
         return (
           <Fragment>
@@ -165,6 +165,8 @@ export default function QuanLyThongTinPhong() {
     },
     {
       title: "Vị trí",
+      width: "22%",
+      align: "center",
       // dataIndex: "locationId",
       render: (room) => {
         return <span>{room.locationId?.province}</span>;
@@ -173,12 +175,22 @@ export default function QuanLyThongTinPhong() {
     {
       title: "Hành động",
       dataIndex: "hanhDong",
-      render: () => {
+      align: "center",
+
+      render: (text, room) => {
         return (
-          <Fragment>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+          <Fragment key={1}>
+            <button
+              onClick={() => {
+                history.push(`/admin/rooms/edit/${room._id}`);
+              }}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            >
               <i className="fa fa-pencil-alt"></i>
             </button>
+            {/* <div>
+              <EditRoom />
+            </div> */}
             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
               <i className="fa fa-trash-alt"></i>
             </button>
@@ -192,7 +204,7 @@ export default function QuanLyThongTinPhong() {
     <div>
       <button
         onClick={() => {
-          history.push("/admin/room/newroom");
+          history.push("/admin/rooms/addnew");
         }}
         className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded mb-5"
       >
