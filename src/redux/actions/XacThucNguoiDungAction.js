@@ -6,7 +6,7 @@ export const dangNhapAction = (thongTinDangNhap) => {
   return async (dispatch) => {
     try {
       const result = await xthucNguoiDungService.dangNhap(thongTinDangNhap);
-      // console.log("result", result);
+      console.log("result", result);
       alert("ĐĂNG NHẬP THÀNH CÔNG");
       if (result.status === 200) {
         dispatch({

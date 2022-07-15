@@ -10,8 +10,13 @@ import axios from "axios";
 import UploadImageDemo from "../Admin/ManagerRooms/UploadImageRoom/UploadImageDemo";
 
 export default function Profile(props) {
-  // const { user } = useSelector((state) => state.QuanLyNguoiDungReducer);
   const { userLogin } = useSelector((state) => state.XacThucNguoiDungReducer);
+
+  let user = {};
+  if (localStorage.getItem(USER_LOGIN)) {
+    user = JSON.parse(localStorage.getItem(USER_LOGIN));
+  }
+  console.log({ userLogin });
 
   const [imgSrc, setImgSrc] = useState("");
   const handleChangeFile = (e) => {
@@ -59,7 +64,7 @@ export default function Profile(props) {
         <div className="flex flex-col items-center justify-center">
           <img
             className="rounded-full text-center"
-            src={imgSrc === "" ? userLogin.avatar : imgSrc}
+            src={imgSrc === "" ? user.avatar : imgSrc}
             alt="..."
             style={{ width: 130, height: 130 }}
           />
@@ -92,14 +97,14 @@ export default function Profile(props) {
             Nhận huy hiệu
           </span>
           <hr className="mt-12 mb-8" />
-          <p className="text-2xl font-bold">{userLogin.name} đã xác nhận</p>
+          <p className="text-2xl font-bold">{user.name} đã xác nhận</p>
           <i className="fa-solid fa-check font-extrabold"></i>
           <span className="ml-3 text-lg mb-7">Số điện thoại</span>
         </div>
       </div>
       <div className="basis-2/3 px-5">
         <p className="text-4xl font-semibold mb-3">
-          Xin chào, tôi là {userLogin.name}
+          Xin chào, tôi là {user.name}
         </p>
         <p className="text-sm text-slate-500">Bắt đầu tham gia vào 2022</p>
         <p className="underline font-semibold">Chỉnh sửa hồ sơ</p>
