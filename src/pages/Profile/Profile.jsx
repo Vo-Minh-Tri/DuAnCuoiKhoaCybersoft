@@ -4,63 +4,82 @@ import { useEffect } from "react";
 import { layThongTinChiTietNguoiDungAction } from "../../redux/actions/QuanLyNguoiDungAction";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
-import { USER_LOGIN } from "../../util/settings/config";
+import { useState } from "react";
+import { DOMAIN, USER_LOGIN } from "../../util/settings/config";
+import axios from "axios";
+import UploadImageDemo from "../Admin/ManagerRooms/UploadImageRoom/UploadImageDemo";
 
 export default function Profile(props) {
-  const userId = JSON.parse(localStorage.getItem(USER_LOGIN));
-  console.log({ userId });
-
-  const restProps = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
-    },
-
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
   const { user } = useSelector((state) => state.QuanLyNguoiDungReducer);
-  const dispatch = useDispatch();
-  const handleAvatar = () => {
-    if (user.avatar) {
-      return user.avatar;
-    } else {
-      console.log("Chưa có ảnh đại diện");
-      return "./img/user_pic-225x225.png";
-    }
+  // const { userLogin } = useSelector((state) => state.XacThucNguoiDungReducer);
+
+  const [imgSrc, setImgSrc] = useState("");
+  const handleChangeFile = (e) => {
+    // Lấy file ra từ event
+    let file = e.target.files[0];
+    // Tạo đối tượng để đọc file
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      // console.log(e.target.result);
+      setImgSrc(e.target.result);
+    };
+    console.log("file", file);
   };
+
+  const dispatch = useDispatch();
+  // let ids = props.match.params;
+  console.log("props", props);
+  let { id } = props.match.params;
   useEffect(() => {
     // Lấy thông tin param từ url
-    // let { id } = props.match.params;
-    // console.log("id", id);
-    const action = layThongTinChiTietNguoiDungAction();
+
+    console.log("id", id);
+    const action = layThongTinChiTietNguoiDungAction(id);
     dispatch(action);
   }, []);
+
+  const handleApi = () => {
+    const url = DOMAIN + "/api/users/upload-avatar";
+    const formData = new FormData();
+    formData.append("image", imgSrc);
+    console.log("formData", formData.get("image"));
+    axios
+      .post(url, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="container flex mx-auto py-10 px-20">
       <div className="basis-1/3 border-solid border-2 rounded-xl border-slate-100 py-5 px-5 mr-14">
         <div className="flex flex-col items-center justify-center">
           <img
             className="rounded-full text-center"
-            src="./download.jpg"
+            src={imgSrc === "" ? user.avatar : imgSrc}
             alt="..."
-            width={150}
+            style={{ width: 130, height: 130 }}
           />
 
           <div className="mt-3">
-            <Upload {...restProps}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
+            {/* <input
+              className="hidden"
+              type="file"
+              id="file"
+              onChange={handleChangeFile}
+              accept="image/*"
+            />
+            <label
+              className="underline cursor-pointer font-semibold"
+              htmlFor="file"
+              onClick={handleApi}
+            >
+              Cập nhật hình ảnh
+            </label> */}
+            <UploadImageDemo  id = {id}/>
           </div>
         </div>
         <div className="mt-10">
@@ -80,7 +99,7 @@ export default function Profile(props) {
       </div>
       <div className="basis-2/3 px-5">
         <p className="text-4xl font-semibold mb-3">
-          Xin chào, tôi là {userId.name}
+          Xin chào, tôi là {user.name}
         </p>
         <p className="text-sm text-slate-500">Bắt đầu tham gia vào 2022</p>
         <p className="underline font-semibold">Chỉnh sửa hồ sơ</p>

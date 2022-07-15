@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Rate, Avatar } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { layDanhSachDanhGiaAction } from "../../redux/actions/QuanLyDanhGiaAction";
+import { layDanhSachDanhGiaAction } from "../../../redux/actions/QuanLyDanhGiaAction";
 
-export default function DanhGia(props) {
+export default function DetailEvaluate(props) {
   const locationId = props.locationId;
   // console.log({ props });
 

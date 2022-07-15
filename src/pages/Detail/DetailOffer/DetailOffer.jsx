@@ -10,7 +10,7 @@ import NetworkWifiIcon from "@mui/icons-material/NetworkWifi";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TvIcon from "@mui/icons-material/Tv";
 
-export default function TienNghi(props) {
+export default function DetailOffer(props) {
   const { chiTietPhong } = props;
   // console.log({ chiTietPhong });
   const arrTienNghi = [

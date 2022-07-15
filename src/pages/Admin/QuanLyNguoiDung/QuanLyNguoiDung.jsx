@@ -1,26 +1,25 @@
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table } from "antd";
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import Highlighter from "react-highlight-words";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  layDanhSachPhongAction,
-  xoaPhongChoThueAction,
-} from "../../../redux/actions/QuanLyPhongAction";
+  layDanhSachNguoiDungAction,
+  xoaNguoiDungAction,
+} from "../../../redux/actions/QuanLyNguoiDungAction";
+// import User from "../User/User";
+import { Input, Table, Button, Space } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+import { useFormik } from "formik";
 import { history } from "../../../App";
-import UploadImageRoom from "./UploadImageRoom/UploadImageRoom";
-import UploadImageDemo from "./UploadImageRoom/UploadImageDemo";
 
-export default function ManagerRooms() {
-  const { arrRoom } = useSelector((state) => state.QuanLyPhongReducer);
-
+export default function QuanLyNguoiDung(props) {
+  // Hiển thị danh sách user
+  const { userList } = useSelector((state) => state.QuanLyNguoiDungReducer);
+  // console.log("userList", userList);
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(layDanhSachPhongAction());
+    const action = layDanhSachNguoiDungAction();
+    dispatch(action);
   }, []);
-
-  const data = arrRoom;
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -44,7 +43,11 @@ export default function ManagerRooms() {
       confirm,
       clearFilters,
     }) => (
-      <div key={2} style={{ padding: 8 }}>
+      <div
+        style={{
+          padding: 8,
+        }}
+      >
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
@@ -127,69 +130,60 @@ export default function ManagerRooms() {
 
   const columns = [
     {
-      title: "Mã Phòng",
+      title: "Mã id",
       dataIndex: "_id",
-      width: "15%",
-      align: "center",
-      sorter: (a, b) => {
-        let idA = a._id.toLowerCase().trim();
-        let idB = b._id.toLowerCase().trim();
-        if (idA > idB) {
-          return 1;
-        }
-        return -1;
-      },
-      sortDirections: ["descend", "ascend"],
+      key: "_id",
     },
     {
-      title: "Tên Phòng",
+      title: "Tên",
       dataIndex: "name",
-      width: "20%",
-      align: "center",
+      key: "name",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Hình ảnh",
-      dataIndex: "image",
-      width: "25%",
-      align: "center",
-      render: (text, room, index) => {
+      title: "Ảnh đại diện",
+      dataIndex: "avatar",
+      key: "avatar",
+      render: (text, user) => {
         return (
-          <div>
-            <img src={room.image} alt="" />
-            <button
-              onClick={() => {
-                history.push(`/admin/uploadimage/${room._id}`);
-              }}
-            >
-              Upload Image
-            </button>
-          </div>
+          <Fragment>
+            <img src={user.avatar} />
+          </Fragment>
         );
-
-        // <UploadImageRoom imgProps={room.image} id={room._id} />;
       },
     },
     {
-      title: "Vị trí",
-      width: "22%",
-      align: "center",
-      // dataIndex: "locationId",
-      render: (room) => {
-        return <span>{room.locationId?.province}</span>;
-      },
+      title: "Email",
+      key: "email",
+      dataIndex: "email",
     },
     {
-      title: "Hành động",
-      dataIndex: "_id",
-      align: "center",
-
-      render: (text, room) => {
+      title: "Chức vụ",
+      key: "type",
+      dataIndex: "type",
+    },
+    {
+      title: "Số điện thoại",
+      key: "phone",
+      dataIndex: "phone",
+    },
+    {
+      title: "",
+      dataIndex: "",
+      render: (user) => {
         return (
-          <Fragment key={1}>
+          <Fragment>
             <button
               onClick={() => {
-                history.push(`/admin/rooms/edit/${room._id}`);
+                history.push(`/admin/user/detailuser/${user._id}`);
+              }}
+              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mb-4"
+            >
+              Xem thông tin chi tiết
+            </button>
+            <button
+              onClick={() => {
+                history.push(`/admin/user/updateuser/${user._id}`);
               }}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
             >
@@ -198,8 +192,12 @@ export default function ManagerRooms() {
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
               onClick={() => {
-                if (window.confirm("Bạn có muốn xóa phòng" + room.name)) {
-                  dispatch(xoaPhongChoThueAction(room._id));
+                // Gọi action xóa
+                if (
+                  window.confirm("Bạn có chắc muốn xóa người dùng này chứ?")
+                ) {
+                  // Gọi action
+                  dispatch(xoaNguoiDungAction(user._id));
                 }
               }}
             >
@@ -210,18 +208,48 @@ export default function ManagerRooms() {
       },
     },
   ];
+  const data = userList;
+  // Nút Search
+  const { Search } = Input;
+
+  const userListNew = userList;
+  console.log({ userListNew });
+
+  const onSearch = (value) => {
+    return (userListNew = userListNew.filter((user) => {
+      return user.name?.includes(value);
+    }));
+    // console.log(value);
+    // const action = {
+    //   type: SEARCH_USER,
+    // };
+    // dispatch(action);
+  };
+
+  // Thêm thành viên
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+    },
+    onSubmit: (values) => {
+      console.log("values", values);
+    },
+  });
 
   return (
-    <div>
+    <div className="container mx-auto">
       <button
         onClick={() => {
-          history.push("/admin/rooms/addnew");
+          history.push("/admin/user/adduser");
         }}
         className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded mb-5"
       >
-        Thêm phòng
+        Thêm quản trị viên
       </button>
-      <Table columns={columns} dataSource={data} rowKey={"_id"} />
+      <Table className="mt-5" columns={columns} dataSource={data} />;
     </div>
   );
 }

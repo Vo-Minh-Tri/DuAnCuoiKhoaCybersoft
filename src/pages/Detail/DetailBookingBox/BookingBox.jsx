@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import { datPhongAction } from "../../redux/actions/QuanLyPhongAction";
-import { ThongTinDatPhong } from "../../_core/models/ThongTinDatPhong";
+import { datPhongAction } from "../../../redux/actions/QuanLyPhongAction";
+import { ThongTinDatPhong } from "../../../_core/models/ThongTinDatPhong";
 
-export function BookingComponent(props) {
+export function BookingBox(props) {
   const { chiTietPhong, locationId, id } = props;
 
   const dispatch = useDispatch();
@@ -86,24 +86,23 @@ export function BookingComponent(props) {
           </div>
         </div>
       </div>
-      <NavLink to={`/booking/${id}`}>
-        <button
-          onClick={() => {
-            const thongTinDatPhong = new ThongTinDatPhong();
-            thongTinDatPhong.roomId = props.id;
-            thongTinDatPhong.checkIn =
-              moment(checkInDate).format("YYYY-MM-DDTHH:mm:ss.sss") + "Z";
-            thongTinDatPhong.checkOut =
-              moment(checkOutDate).format("YYYY-MM-DDTHH:mm:ss.sss") + "Z";
-            console.log({ thongTinDatPhong });
-            dispatch(datPhongAction(thongTinDatPhong));
-          }}
-          className="bg-rose-500 hover:bg-rose-600 text-white w-full font-semibold text-base"
-          style={{ padding: "14px 24px", borderRadius: "8px" }}
-        >
-          Đặt phòng
-        </button>
-      </NavLink>
+
+      <button
+        onClick={() => {
+          const thongTinDatPhong = new ThongTinDatPhong();
+          thongTinDatPhong.roomId = props.id;
+          thongTinDatPhong.checkIn =
+            moment(checkInDate).format("YYYY-MM-DDTHH:mm:ss.sss") + "Z";
+          thongTinDatPhong.checkOut =
+            moment(checkOutDate).format("YYYY-MM-DDTHH:mm:ss.sss") + "Z";
+          console.log({ thongTinDatPhong });
+          dispatch(datPhongAction(thongTinDatPhong));
+        }}
+        className="bg-rose-500 hover:bg-rose-600 text-white w-full font-semibold text-base"
+        style={{ padding: "14px 24px", borderRadius: "8px" }}
+      >
+        Đặt phòng
+      </button>
 
       <div className="mt-4 text-center">Bạn vẫn chưa bị trừ tiền</div>
 

@@ -9,7 +9,7 @@ export default function Login(props) {
 
   const { userLogin } = useSelector((state) => state.XacThucNguoiDungReducer);
 
-  console.log("userLogin", userLogin);
+  // console.log("userLogin", userLogin);
 
   const formik = useFormik({
     initialValues: {

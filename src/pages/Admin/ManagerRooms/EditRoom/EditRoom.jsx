@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  capNhatThongTinPhongAction,
   layThongTinChiTietPhong,
   taoPhongAction,
 } from "../../../../redux/actions/QuanLyPhongAction";
@@ -31,17 +32,18 @@ export default function EditRoom(props) {
     dispatch(layThongTinChiTietPhong(id));
   }, []);
   const { chiTietPhong } = useSelector((state) => state.QuanLyPhongReducer);
+  // console.log({ chiTietPhong });
 
   const provinceDefault = chiTietPhong.locationId?.province;
   const index = arrViTri.findIndex((viTri) => {
     return viTri.province === provinceDefault;
   });
   const locationDefault = arrViTri[index];
-  console.log({ locationDefault });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      _id: chiTietPhong._id,
       name: chiTietPhong.name,
       guests: chiTietPhong.guests,
       bedRoom: chiTietPhong.bedRoom,
@@ -58,11 +60,11 @@ export default function EditRoom(props) {
       wifi: chiTietPhong.wifi,
       heating: chiTietPhong.heating,
       cableTV: chiTietPhong.cableTV,
-      image: chiTietPhong.image,
       locationId: locationDefault?._id,
     },
     onSubmit: (values) => {
-      dispatch(taoPhongAction(values));
+      console.log({ values });
+      dispatch(capNhatThongTinPhongAction(values._id, values));
     },
   });
 
@@ -70,6 +72,12 @@ export default function EditRoom(props) {
     return (values) => {
       formik.setFieldValue(name, values);
     };
+  };
+
+  const handleChangeFile = (e) => {
+    let file = e.target.files[0];
+    console.log({ file });
+    formik.setFieldValue("image", file);
   };
 
   return (
@@ -87,14 +95,14 @@ export default function EditRoom(props) {
         }}
         layout="horizontal"
       >
-        <Form.Item label="Name">
+        <Form.Item label="Tên khách sạn">
           <Input
             name="name"
             onChange={formik.handleChange}
             value={formik.values.name}
           />
         </Form.Item>
-        <Form.Item label="Guests">
+        <Form.Item label="Khách">
           <InputNumber
             onChange={handleSwitch("guests")}
             value={formik.values.guests}
@@ -102,7 +110,7 @@ export default function EditRoom(props) {
             max={4}
           />
         </Form.Item>
-        <Form.Item label="BedRoom">
+        <Form.Item label="Phòng ngủ">
           <InputNumber
             onChange={handleSwitch("bedRoom")}
             value={formik.values.bedRoom}
@@ -110,7 +118,7 @@ export default function EditRoom(props) {
             max={4}
           />
         </Form.Item>
-        <Form.Item label="Bath">
+        <Form.Item label="Nhà tắm">
           <InputNumber
             onChange={handleSwitch("bath")}
             value={formik.values.bath}
@@ -118,44 +126,44 @@ export default function EditRoom(props) {
             max={4}
           />
         </Form.Item>
-        <Form.Item label="Description">
+        <Form.Item label="Mô tả">
           <Input
             name="description"
             onChange={formik.handleChange}
             value={formik.values.description}
           />
         </Form.Item>
-        <Form.Item label="Price">
+        <Form.Item label="Giá phòng">
           <InputNumber
             onChange={handleSwitch("price")}
             value={formik.values.price}
           />
         </Form.Item>
-        <Form.Item label="Elevator">
+        <Form.Item label="Thang máy">
           <Switch
             onChange={handleSwitch("elevator")}
             checked={formik.values.elevator}
           />
         </Form.Item>
-        <Form.Item label="Hot Tub">
+        <Form.Item label="Bồn nước nóng">
           <Switch
             onChange={handleSwitch("hotTub")}
             checked={formik.values.hotTub}
           />
         </Form.Item>
-        <Form.Item label="Pool">
+        <Form.Item label="Hồ bơi">
           <Switch
             onChange={handleSwitch("pool")}
             checked={formik.values.pool}
           />
         </Form.Item>
-        <Form.Item label="Indoor Fireplace">
+        <Form.Item label="Lò sưởi trong phòng">
           <Switch
             onChange={handleSwitch("indoorFireplace")}
             checked={formik.values.indoorFireplace}
           />
         </Form.Item>
-        <Form.Item label="Dryer">
+        <Form.Item label="Máy sấy khô">
           <Switch
             onChange={handleSwitch("dryer")}
             checked={formik.values.dryer}
@@ -164,7 +172,7 @@ export default function EditRoom(props) {
         <Form.Item label="Gym">
           <Switch onChange={handleSwitch("gym")} checked={formik.values.gym} />
         </Form.Item>
-        <Form.Item label="Kitchen">
+        <Form.Item label="Bếp">
           <Switch
             onChange={handleSwitch("kitchen")}
             checked={formik.values.kitchen}
@@ -176,33 +184,28 @@ export default function EditRoom(props) {
             checked={formik.values.wifi}
           />
         </Form.Item>
-        <Form.Item label="Heating">
+        <Form.Item label="Máy lạnh">
           <Switch
             onChange={handleSwitch("heating")}
             checked={formik.values.heating}
           />
         </Form.Item>
-        <Form.Item label="CableTV">
+        <Form.Item label="Ti vi">
           <Switch
             onChange={handleSwitch("cableTV")}
             checked={formik.values.cableTV}
           />
         </Form.Item>
         <Form.Item label="Hình ảnh">
-          <Input
-            name="image"
-            onChange={formik.handleChange}
-            value={formik.values.image}
-          />
+          <input type="file" onChange={handleChangeFile} />
         </Form.Item>
-        <Form.Item name="locationId" label="Location">
+        <Form.Item name="locationId" label="Vị trí">
           <Select
             style={{
               width: "100%",
             }}
             onChange={handleSwitch("locationId")}
-            defaultActiveFirstOption={true}
-            defaultValue={formik.values.locationId}
+            // initialValues={formik.values.locationId}
             allowClear
           >
             {renderViTri()}

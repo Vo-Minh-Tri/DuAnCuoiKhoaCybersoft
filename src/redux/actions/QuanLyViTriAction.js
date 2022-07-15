@@ -8,7 +8,7 @@ export const layDanhSachViTriAction = () => {
   return async (dispatch) => {
     try {
       const result = await qlyViTriService.layDanhSachViTri();
-      console.log({ result });
+      // console.log({ result });
       dispatch({
         type: SET_DANH_SACH_VI_TRI,
         arrViTri: result.data,

@@ -41,15 +41,9 @@ export default function AddNewRoom() {
       wifi: false,
       heating: false,
       cableTV: false,
-      image: "",
       locationId: "",
     },
     onSubmit: (values) => {
-      console.log({ values });
-      // const formData = new FormData();
-      // for (let key in values) {
-      //   return formData.append(key, values[key]);
-      // }
       dispatch(taoPhongAction(values));
     },
   });
@@ -63,12 +57,8 @@ export default function AddNewRoom() {
   return (
     <Form
       onSubmitCapture={formik.handleSubmit}
-      labelCol={{
-        span: 4,
-      }}
-      wrapperCol={{
-        span: 14,
-      }}
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 14 }}
       layout="horizontal"
     >
       <Form.Item label="Name">
@@ -119,14 +109,9 @@ export default function AddNewRoom() {
       <Form.Item label="CableTV">
         <Switch onChange={handleSwitch("cableTV")} />
       </Form.Item>
-      <Form.Item label="Hình ảnh">
-        <Input name="image" onChange={formik.handleChange} />
-      </Form.Item>
       <Form.Item name="locationId" label="Location">
         <Select
-          style={{
-            width: "100%",
-          }}
+          style={{ width: "100%" }}
           onChange={handleSwitch("locationId")}
           allowClear
         >

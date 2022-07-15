@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 
 export default function Booking(props) {
+  const thongTinDatPhong = useSelector(
+    (state) => state.QuanLyPhongReducer.thongTinDatPhong
+  );
+
+  console.log({ thongTinDatPhong });
   return (
     <div>
       <div className="border-b px-10">
@@ -81,7 +87,7 @@ export default function Booking(props) {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

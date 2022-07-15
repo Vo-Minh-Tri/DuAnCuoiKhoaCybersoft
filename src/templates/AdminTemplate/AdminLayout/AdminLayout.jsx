@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./adminLayout.css";
 const { Header, Sider, Content } = Layout;
 
@@ -16,35 +17,25 @@ export default function AdminLayout(props) {
   return (
     <Layout>
       <Sider theme="light" collapsible collapsed={collapsed}>
-        <div className="py-3" style={{ color: "#ff385c" }}>
+        <NavLink to="/" className="py-3 block" style={{ color: "#ff385c" }}>
           <div className="flex items-center justify-center">
             <i className="fab fa-airbnb mr-2 text-4xl"></i>
             <p className="text-2xl font-bold">airbnb</p>
           </div>
-        </div>
+        </NavLink>
         <Menu
           style={{ maginTop: 0 }}
           theme="light"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <AppstoreOutlined />,
-              label: "Room list",
-            },
-            {
-              key: "2",
-              icon: <ShopOutlined />,
-              label: "nav 2",
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
-            },
-          ]}
-        />
+        >
+          <Menu.Item key="1" icon={<AppstoreOutlined />}>
+            <NavLink to="/admin/rooms">Room list</NavLink>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<AppstoreOutlined />}>
+            <NavLink to="/admin/user">User list</NavLink>
+          </Menu.Item>
+        </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header

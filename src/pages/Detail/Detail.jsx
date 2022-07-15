@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { layThongTinChiTietPhong } from "../../redux/actions/QuanLyPhongAction";
-import TienNghi from "./TienNghi";
-import DanhGia from "./DanhGia";
-import { BookingComponent } from "../../components/Detail_Component/BookingComponent";
+import { BookingBox } from "./DetailBookingBox/BookingBox";
+import DetailEvaluate from "./DetailEvaluate/DetailEvaluate";
+import DetailOffer from "./DetailOffer/DetailOffer";
 
 export default function Detail(props) {
   const chiTietPhong = useSelector(
@@ -112,12 +112,12 @@ export default function Detail(props) {
             <p>{chiTietPhong.description}</p>
           </div>
           <hr />
-          <TienNghi chiTietPhong={chiTietPhong} />
+          <DetailOffer chiTietPhong={chiTietPhong} />
         </div>
 
-        {/* Booking component */}
+        {/* Booking box */}
         <div className="w-4/12 ml-2">
-          <BookingComponent
+          <BookingBox
             chiTietPhong={chiTietPhong}
             locationId={locationId}
             id={id}
@@ -127,7 +127,7 @@ export default function Detail(props) {
       <hr />
 
       {/* Đánh giá */}
-      <DanhGia locationId={locationId} id={id} />
+      <DetailEvaluate locationId={locationId} id={id} />
     </section>
   );
 }

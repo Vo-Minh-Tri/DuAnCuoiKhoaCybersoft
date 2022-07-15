@@ -24,8 +24,9 @@ export const QuanLyPhongReducer = (state = stateDefault, action) => {
       return { ...state };
     }
     case SET_DANH_SACH_PHONG_FILTER: {
-      let keyword = document.getElementById("inputLocation").value;
-      state.arrRoom = state.arrRoomDefault.filter((room) => {
+      let keyword = document.getElementById("location").value;
+      console.log({ keyword });
+      state.arrRoom = state.arrRoom.filter((room) => {
         return room.locationId?.province.includes(keyword);
       });
       return { ...state };

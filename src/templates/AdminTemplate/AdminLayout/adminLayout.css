@@ -29,7 +29,7 @@
 }
 
 .ant-menu-item:hover .ant-menu-item-icon,
-.ant-menu-item:hover .ant-menu-title-content {
+.ant-menu-item:hover .ant-menu-title-content a {
   color: #ff385c;
 }
 
@@ -58,4 +58,9 @@
 
 .site-layout .site-layout-background {
   background: #fff;
+}
+
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: #ff385c;
 }

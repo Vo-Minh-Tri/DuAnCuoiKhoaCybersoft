@@ -16,8 +16,20 @@ export class QuanLyPhongService extends baseService {
     return this.get(`api/rooms/${id}`);
   };
 
+  capNhatThongTinPhong = (id, formData) => {
+    return this.put(`api/rooms/${id}`, formData);
+  };
+
+  xoaPhongChoThue = (id) => {
+    return this.delete(`api/rooms/${id}`);
+  };
+
   datPhong = (thongTinDatPhong = new ThongTinDatPhong()) => {
     return this.post(`api/rooms/booking`, thongTinDatPhong);
+  };
+
+  capNhatHinhAnhPhong = (id, fileData) => {
+    return this.post(`api/rooms/upload-image/${id}`, fileData);
   };
 }
 
