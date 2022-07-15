@@ -205,7 +205,6 @@ export default function EditRoom(props) {
               width: "100%",
             }}
             onChange={handleSwitch("locationId")}
-            // initialValues={formik.values.locationId}
             allowClear
           >
             {renderViTri()}

@@ -209,22 +209,6 @@ export default function QuanLyNguoiDung(props) {
     },
   ];
   const data = userList;
-  // Nút Search
-  const { Search } = Input;
-
-  const userListNew = userList;
-  console.log({ userListNew });
-
-  const onSearch = (value) => {
-    return (userListNew = userListNew.filter((user) => {
-      return user.name?.includes(value);
-    }));
-    // console.log(value);
-    // const action = {
-    //   type: SEARCH_USER,
-    // };
-    // dispatch(action);
-  };
 
   // Thêm thành viên
   const formik = useFormik({

@@ -3,7 +3,7 @@ import React from "react";
 export default function Footer() {
   return (
     <div className="border-t">
-      <div className="container grid justify-center pt-6 lg:justify-between">
+      <div className="container grid justify-center py-6 lg:justify-between">
         <div className="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-2">
           <span>©2022 Airbnb, Inc.</span>
           <span>·</span>

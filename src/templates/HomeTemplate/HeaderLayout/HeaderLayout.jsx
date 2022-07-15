@@ -31,6 +31,12 @@ export default function HeaderLayout() {
     />
   );
 
+  let user = {};
+  if (localStorage.getItem(USER_LOGIN)) {
+    user = JSON.parse(localStorage.getItem(USER_LOGIN));
+  }
+  console.log("name", user.name);
+
   let menu = menuDefault;
 
   const menuClient = (
@@ -53,7 +59,7 @@ export default function HeaderLayout() {
         { key: "2", label: <NavLink to="/register">Register</NavLink> },
         {
           key: "3",
-          label: <NavLink to={`/profile/${userLogin._id}`}>Account</NavLink>,
+          label: <NavLink to={`/profile/${user._id}`}>Account</NavLink>,
         },
       ]}
     />
@@ -79,7 +85,7 @@ export default function HeaderLayout() {
         { key: "2", label: <NavLink to="/register">Register</NavLink> },
         {
           key: "3",
-          label: <NavLink to={`/profile/${userLogin._id}`}>Account</NavLink>,
+          label: <NavLink to={`/profile/${user._id}`}>Account</NavLink>,
         },
         {
           key: "4",
@@ -89,10 +95,6 @@ export default function HeaderLayout() {
     />
   );
 
-  let user = {};
-  if (localStorage.getItem(USER_LOGIN)) {
-    user = JSON.parse(localStorage.getItem(USER_LOGIN));
-  }
   if (user.type === "CLIENT") {
     menu = menuClient;
   } else if (user.type === "ADMIN") {
