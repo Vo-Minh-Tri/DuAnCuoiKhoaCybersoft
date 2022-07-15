@@ -66,11 +66,13 @@ export default function ThemQuanTriVien() {
           onChange={formik.handleChange}
         />
       </Form.Item>
-      <Form.Item label="Thêm">
-        <button type="submit" className="px-2 py-1 bg-blue-700 text-orange-500">
-          Thêm quản trị viên
-        </button>
-      </Form.Item>
+
+      <button
+        type="submit"
+        className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Thêm quản trị viên
+      </button>
     </Form>
   );
 }

@@ -20,6 +20,7 @@ import ManagerRooms from "./pages/Admin/ManagerRooms/ManagerRooms";
 import QuanLyNguoiDung from "./pages/Admin/QuanLyNguoiDung/QuanLyNguoiDung";
 import XemThongTinChiTiet from "./pages/Admin/QuanLyNguoiDung/XemThongTinChiTiet/XemThongTinChiTiet.jsx";
 import CapNhatNguoiDung from "./pages/Admin/QuanLyNguoiDung/CapNhatNguoiDung/CapNhatNguoiDung.jsx";
+import ThemQuanTriVien from "./pages/Admin/QuanLyNguoiDung/ThemQuanTriVien/ThemQuanTriVien";
 import UploadImageRoom from "./pages/Admin/ManagerRooms/UploadImageRoom/UploadImageRoom";
 import UploadImageDemo from "./pages/Admin/ManagerRooms/UploadImageRoom/UploadImageDemo";
 
@@ -72,11 +73,11 @@ function App() {
           path="/admin/uploadimage/:id"
           Component={UploadImageDemo}
         />
-        {/* <AdminTemplateNew
+        <AdminTemplateNew
           exact
-          path="/admin/uploadimage/:id"
-          Component={UploadImageRoom}
-        /> */}
+          path="/admin/user/adduser"
+          Component={ThemQuanTriVien}
+        />
 
         <UserTemplate exact path="/login" Component={Login} />
         <UserTemplate exact path="/register" Component={Register} />
