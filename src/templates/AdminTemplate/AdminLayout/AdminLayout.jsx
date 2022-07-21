@@ -18,7 +18,7 @@ export default function AdminLayout(props) {
         <NavLink to="/" className="py-3 block" style={{ color: "#ff385c" }}>
           <div className="flex items-center justify-center">
             <i className="fab fa-airbnb mr-2 text-4xl"></i>
-            <p className="text-2xl font-bold">airbnb</p>
+            <span className="text-2xl font-bold">airbnb</span>
           </div>
         </NavLink>
         <Menu
