@@ -8,6 +8,7 @@ import {
 
 export default function UploadImageRoom(props) {
   let { id } = props.match.params;
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(layThongTinChiTietPhong(id));
   }, []);
@@ -16,15 +17,15 @@ export default function UploadImageRoom(props) {
   console.log(chiTietPhong?.image);
   const [imgSrc, setImgSrc] = useState(chiTietPhong?.image);
 
-  const dispatch = useDispatch();
+  const dispatchImg = useDispatch()
   const handleChangeFile = (e) => {
     let file = e.target.files[0];
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
       setImgSrc(e.target.result);
     };
-    dispatch(capNhatHinhAnhPhongAction(id, file));
+    dispatchImg(capNhatHinhAnhPhongAction(id, file));
   };
 
   return (

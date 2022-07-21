@@ -1,26 +1,21 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  layDanhSachNguoiDungAction,
-  xoaNguoiDungAction,
-} from "../../../redux/actions/QuanLyNguoiDungAction";
-// import User from "../User/User";
-import { Input, Table, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Space, Table } from "antd";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import { history } from "../../../App";
+import {
+  layDanhSachViTriAction,
+  xoaViTriAction,
+} from "../../../redux/actions/QuanLyViTriAction";
 
-export default function QuanLyNguoiDung(props) {
-  // Hiển thị danh sách user
-  const { userList } = useSelector((state) => state.QuanLyNguoiDungReducer);
-  // console.log("userList", userList);
+export default function ManagerLocations() {
+  const { arrViTri } = useSelector((state) => state.QuanLyViTriReducer);
   const dispatch = useDispatch();
   useEffect(() => {
-    const action = layDanhSachNguoiDungAction();
-    dispatch(action);
+    dispatch(layDanhSachViTriAction());
   }, []);
-
+  const data = arrViTri;
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -43,11 +38,7 @@ export default function QuanLyNguoiDung(props) {
       confirm,
       clearFilters,
     }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-      >
+      <div key={2} style={{ padding: 8 }}>
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
@@ -130,62 +121,66 @@ export default function QuanLyNguoiDung(props) {
 
   const columns = [
     {
-      title: "Mã id",
+      title: "Mã vị trí",
       dataIndex: "_id",
-      key: "_id",
+      width: "15%",
+      align: "center",
+      sorter: (a, b) => {
+        let idA = a._id.toLowerCase().trim();
+        let idB = b._id.toLowerCase().trim();
+        if (idA > idB) {
+          return 1;
+        }
+        return -1;
+      },
+      sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Tên",
+      title: "Tên vị trí",
       dataIndex: "name",
-      key: "name",
+      width: "20%",
+      align: "center",
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Ảnh đại diện",
-      dataIndex: "avatar",
-      key: "avatar",
-      render: (text, user) => {
+      title: "Hình ảnh",
+      dataIndex: "image",
+      width: "25%",
+      align: "center",
+      render: (text, viTri, index) => {
         return (
-          <Fragment>
-            <img src={user.avatar} />
-          </Fragment>
+          <div>
+            <img src={viTri.image} alt="" />
+            <button
+              onClick={() => {
+                history.push(`/admin/locations/uploadimage/${viTri._id}`);
+              }}
+            >
+              Upload Image
+            </button>
+          </div>
         );
       },
     },
     {
-      title: "Email",
-      key: "email",
-      dataIndex: "email",
-    },
-    {
-      title: "Chức vụ",
-      key: "type",
-      dataIndex: "type",
-    },
-    {
-      title: "Số điện thoại",
-      key: "phone",
-      dataIndex: "phone",
+      title: "Địa điểm",
+      width: "22%",
+      align: "center",
+      render: (viTri) => {
+        return <span>{viTri.province}</span>;
+      },
     },
     {
       title: "Thao tác",
-      dataIndex: "",
-      width: '17%',
-      align: 'center',
-      render: (user) => {
+      dataIndex: "_id",
+      align: "center",
+
+      render: (text, viTri) => {
         return (
           <Fragment>
             <button
               onClick={() => {
-                history.push(`/admin/user/detailuser/${user._id}`);
-              }}
-              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-3 rounded mb-4 text-xs"
-            >
-              Xem thông tin chi tiết
-            </button>
-            <button
-              onClick={() => {
-                history.push(`/admin/user/updateuser/${user._id}`);
+                history.push(`/admin/locations/edit/${viTri._id}`);
               }}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
             >
@@ -194,12 +189,8 @@ export default function QuanLyNguoiDung(props) {
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
               onClick={() => {
-                // Gọi action xóa
-                if (
-                  window.confirm("Bạn có chắc muốn xóa người dùng này chứ?")
-                ) {
-                  // Gọi action
-                  dispatch(xoaNguoiDungAction(user._id));
+                if (window.confirm("Bạn có muốn xóa" + viTri.name)) {
+                  dispatch(xoaViTriAction(viTri._id));
                 }
               }}
             >
@@ -210,32 +201,18 @@ export default function QuanLyNguoiDung(props) {
       },
     },
   ];
-  const data = userList;
-
-  // Thêm thành viên
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      phone: "",
-    },
-    onSubmit: (values) => {
-      console.log("values", values);
-    },
-  });
 
   return (
-    <div className="container mx-auto">
+    <div>
       <button
         onClick={() => {
-          history.push("/admin/user/adduser");
+          history.push("/admin/locations/addnewlocation");
         }}
         className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded mb-5"
       >
-        Thêm quản trị viên
+        Thêm vị trí
       </button>
-      <Table className="mt-5" columns={columns} dataSource={data} rowKey={"_id"} />;
+      <Table columns={columns} dataSource={data} rowKey={"_id"} />
     </div>
   );
 }

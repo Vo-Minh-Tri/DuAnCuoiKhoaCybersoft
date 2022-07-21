@@ -15,7 +15,7 @@ export default function UserTemplate(props) {
             <div className="border-b px-10 ">
               <Header />
             </div>
-            <div className="pt-8">
+            <div className="py-10">
               <Component {...propsRoute} />
             </div>
             <Footer />

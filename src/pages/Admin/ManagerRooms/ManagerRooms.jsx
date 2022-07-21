@@ -159,15 +159,16 @@ export default function ManagerRooms() {
             <img src={room.image} alt="" />
             <button
               onClick={() => {
-                history.push(`/admin/uploadimage/${room._id}`);
+                history.push(`/admin/rooms/uploadimage/${room._id}`);
               }}
             >
               Upload Image
             </button>
           </div>
+          // <UploadImageDemo key={room._id} img={room.image} id={room._id} />
         );
 
-        // <UploadImageRoom imgProps={room.image} id={room._id} />;
+        
       },
     },
     {
@@ -180,13 +181,13 @@ export default function ManagerRooms() {
       },
     },
     {
-      title: "Hành động",
+      title: "Thao tác",
       dataIndex: "_id",
       align: "center",
 
       render: (text, room) => {
         return (
-          <Fragment key={1}>
+          <Fragment>
             <button
               onClick={() => {
                 history.push(`/admin/rooms/edit/${room._id}`);

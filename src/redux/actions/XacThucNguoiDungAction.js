@@ -1,13 +1,14 @@
 import { xthucNguoiDungService } from "../../services/XacThucNguoiDungService";
 import { DANG_NHAP_ACTION } from "../type_action/XacThucNguoiDungType";
 import { history } from "../../App";
+import { message } from 'antd';
 
 export const dangNhapAction = (thongTinDangNhap) => {
   return async (dispatch) => {
     try {
       const result = await xthucNguoiDungService.dangNhap(thongTinDangNhap);
       console.log("result", result);
-      alert("ĐĂNG NHẬP THÀNH CÔNG");
+      message.success("ĐĂNG NHẬP THÀNH CÔNG");
       if (result.status === 200) {
         dispatch({
           type: DANG_NHAP_ACTION,

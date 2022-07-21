@@ -1,9 +1,7 @@
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
   AppstoreOutlined,
-  ShopOutlined,
+  EnvironmentOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React, { useState } from "react";
@@ -28,21 +26,29 @@ export default function AdminLayout(props) {
           theme="light"
           mode="inline"
           defaultSelectedKeys={["1"]}
-        >
-          <Menu.Item key="1" icon={<AppstoreOutlined />}>
-            <NavLink to="/admin/rooms">Room list</NavLink>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<AppstoreOutlined />}>
-            <NavLink to="/admin/user">User list</NavLink>
-          </Menu.Item>
-        </Menu>
+          items={[
+            {
+              key: "1",
+              icon: <AppstoreOutlined />,
+              label: <NavLink to="/admin/rooms">Room list</NavLink>,
+            },
+            {
+              key: "2",
+              icon: <UserOutlined />,
+              label: <NavLink to="/admin/user">User list</NavLink>,
+            },
+            {
+              key: "3",
+              icon: <EnvironmentOutlined />,
+              label: <NavLink to="/admin/locations">Location list</NavLink>,
+            },
+          ]}
+        ></Menu>
       </Sider>
       <Layout className="site-layout">
         <Header
           className="site-layout-background"
-          style={{
-            padding: 0,
-          }}
+          style={{ padding: 0 }}
         ></Header>
         <Content
           className="site-layout-background"

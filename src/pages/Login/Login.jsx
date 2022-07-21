@@ -80,7 +80,7 @@ export default function Login(props) {
           </NavLink>
         </p>
 
-        <div className="my-6 space-y-4">
+        {/* <div className="my-6 space-y-4">
           <button
             aria-label="Login with Google"
             type="button"
@@ -123,7 +123,7 @@ export default function Login(props) {
             </svg>
             <p>Đăng nhập bằng tài khoản Twitter</p>
           </button>
-        </div>
+        </div> */}
       </div>
     </form>
   );

@@ -6,9 +6,7 @@ import HomeTemplate from "./templates/HomeTemplate/HomeTemplate";
 import Home from "./pages/Home/Home";
 import Detail from "./pages/Detail/Detail";
 import "antd/dist/antd.css";
-import Booking from "./pages/Booking/Booking";
 import Login from "./pages/Login/Login";
-import BookingTemplate from "./templates/BookingTemplate/BookingTemplate";
 import UserTemplate from "./templates/UserTemplate/UserTemplate";
 import Register from "./pages/Register/Register";
 import DateRangePicker from "./pages/Detail/DetailBookingBox/DateRangePicker";
@@ -23,6 +21,10 @@ import CapNhatNguoiDung from "./pages/Admin/QuanLyNguoiDung/CapNhatNguoiDung/Cap
 import ThemQuanTriVien from "./pages/Admin/QuanLyNguoiDung/ThemQuanTriVien/ThemQuanTriVien";
 import UploadImageRoom from "./pages/Admin/ManagerRooms/UploadImageRoom/UploadImageRoom";
 import UploadImageDemo from "./pages/Admin/ManagerRooms/UploadImageRoom/UploadImageDemo";
+import ManagerLocations from "./pages/Admin/ManagerLocations/ManagerLocations";
+import AddNewLocation from "./pages/Admin/ManagerLocations/AddNewLocation/AddNewLocation";
+import EditLocation from "./pages/Admin/ManagerLocations/EditLocation/EditLocation";
+import UploadImage from "./components/UploadImage/UploadImage";
 
 export const history = createBrowserHistory();
 
@@ -37,27 +39,10 @@ function App() {
           path="/detail/:id"
           Component={Detail}
         ></HomeTemplate>
-
-        <Route exact path="/register" component={Register} />
         <Route exact path="/date" component={DateRangePicker} />
 
         <AdminTemplateNew exact path="/admin" Component={ManagerRooms} />
         <AdminTemplateNew exact path="/admin/rooms" Component={ManagerRooms} />
-        <AdminTemplateNew
-          exact
-          path="/admin/user"
-          Component={QuanLyNguoiDung}
-        />
-        <AdminTemplateNew
-          exact
-          path="/admin/user/detailuser/:id"
-          Component={XemThongTinChiTiet}
-        />
-        <AdminTemplateNew
-          exact
-          path="/admin/user/updateuser/:id"
-          Component={CapNhatNguoiDung}
-        />
         <AdminTemplateNew
           exact
           path="/admin/rooms/addnew"
@@ -70,20 +55,60 @@ function App() {
         />
         <AdminTemplateNew
           exact
-          path="/admin/uploadimage/:id"
-          Component={UploadImageDemo}
+          path="/admin/rooms/uploadimage/:id"
+          Component={UploadImage}
+        />
+
+        <AdminTemplateNew
+          exact
+          path="/admin/user"
+          Component={QuanLyNguoiDung}
         />
         <AdminTemplateNew
           exact
           path="/admin/user/adduser"
           Component={ThemQuanTriVien}
         />
+        <AdminTemplateNew
+          exact
+          path="/admin/user/detailuser/:id"
+          Component={XemThongTinChiTiet}
+        />
+        <AdminTemplateNew
+          exact
+          path="/admin/user/updateuser/:id"
+          Component={CapNhatNguoiDung}
+        />
+
+        {/* <AdminTemplateNew
+          exact
+          path="/admin/uploadimage/:id"
+          Component={UploadImageRoom}
+        /> */}
+        <AdminTemplateNew
+          exact
+          path="/admin/locations"
+          Component={ManagerLocations}
+        />
+        <AdminTemplateNew
+          exact
+          path="/admin/locations/addnewlocation"
+          Component={AddNewLocation}
+        />
+        <AdminTemplateNew
+          exact
+          path="/admin/locations/uploadimage/:id"
+          Component={UploadImage}
+        />
+        <AdminTemplateNew
+          exact
+          path="/admin/locations/edit/:id"
+          Component={EditLocation}
+        />
 
         <UserTemplate exact path="/login" Component={Login} />
         <UserTemplate exact path="/register" Component={Register} />
         <UserTemplate exact path="/profile/:id" Component={Profile} />
-
-        <BookingTemplate path="/booking/:id" Component={Booking} />
       </Switch>
     </Router>
   );

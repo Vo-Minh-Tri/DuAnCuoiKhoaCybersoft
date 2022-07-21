@@ -1,6 +1,7 @@
 import { history } from "../../App";
 import { qlyNguoiDungService } from "../../services/QuanLyNguoiDungService";
 import { GET_USER_DETAIL, GET_USER_LIST } from "../type_action/QuanLyNguoiDungType";
+import { message } from "antd";
 
 export const layThongTinChiTietNguoiDungAction = (id) => {
   return async (dispatch) => {
@@ -36,7 +37,7 @@ export const themQuanTriVienAction = (values) => {
   return async (dispatch) => {
     try {
       const result = await qlyNguoiDungService.themQuanTriVien(values);
-      alert("Thêm thành công");
+      message.success("THÊM QUẢN TRỊ VIÊN THÀNH CÔNG");
       console.log("result", result);
       dispatch(layDanhSachNguoiDungAction());
       history.push("/admin/user");
@@ -50,7 +51,7 @@ export const capNhatNguoiDungAction = (id,values) => {
   return async (dispatch) => {
     try {
       const result = await qlyNguoiDungService.capNhatNguoiDung(id,values);
-      alert("Cập nhật thành công");
+      message.success("CẬP NHẬT THÀNH CÔNG");
       console.log("result", result);
       dispatch(layDanhSachNguoiDungAction());
       history.push("/admin/user");
@@ -65,7 +66,7 @@ export const xoaNguoiDungAction = (id) => {
     try {
       const result = await qlyNguoiDungService.xoaNguoiDung(id);
       console.log("result", result);
-      alert("Xóa thành công");
+      message.success("XÓA NGƯỜI DÙNG THÀNH CÔNG");
       dispatch(layDanhSachNguoiDungAction());
       history.push("/admin/user");
     } catch (error) {

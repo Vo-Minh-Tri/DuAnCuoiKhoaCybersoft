@@ -4,8 +4,7 @@ import {
   SET_CHI_TIET_PHONG,
   SET_DANH_SACH_PHONG,
 } from "../type_action/QuanLyPhongType";
-import { Alert } from "antd";
-import React from "react";
+import { message } from "antd";
 
 export const layDanhSachPhongAction = () => {
   return async (dispatch) => {
@@ -42,7 +41,7 @@ export const capNhatThongTinPhongAction = (id, formData) => {
   return async (dispatch) => {
     try {
       const result = await qlyPhongService.capNhatThongTinPhong(id, formData);
-      alert("CẬP NHẬT PHIM THÀNH CÔNG");
+      message.success("CẬP NHẬT PHÒNG THÀNH CÔNG");
 
       history.push("/admin/rooms");
       dispatch(layDanhSachPhongAction());
@@ -56,7 +55,7 @@ export const xoaPhongChoThueAction = (id) => {
   return async (dispatch) => {
     try {
       const result = await qlyPhongService.xoaPhongChoThue(id);
-      alert("ĐÃ XÓA PHÒNG THÀNH CÔNG");
+      message.success("ĐÃ XÓA PHÒNG THÀNH CÔNG");
       dispatch(layDanhSachPhongAction());
     } catch (error) {
       console.log({ error });
@@ -68,11 +67,10 @@ export const datPhongAction = (thongTinDatPhong) => {
   return async (dispatch) => {
     try {
       const result = await qlyPhongService.datPhong(thongTinDatPhong);
-
-      alert("ĐẶT PHÒNG THÀNH CÔNG");
+      message.success("ĐẶT PHÒNG THÀNH CÔNG");
     } catch (error) {
       console.log("ERROR:", error);
-      alert("ĐẶT PHÒNG THẤT BẠI");
+      message.error("ĐẶT PHÒNG THẤT BẠI");
     }
   };
 };
@@ -93,6 +91,7 @@ export const capNhatHinhAnhPhongAction = (id, fileData) => {
     try {
       const result = await qlyPhongService.capNhatHinhAnhPhong(id, fileData);
       console.log({ result });
+      message.success("CẬP NHẬT HÌNH THÀNH CÔNG");
     } catch (error) {
       console.log({ error });
     }

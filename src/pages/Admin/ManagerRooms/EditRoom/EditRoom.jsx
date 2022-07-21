@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   capNhatThongTinPhongAction,
   layThongTinChiTietPhong,
-  taoPhongAction,
 } from "../../../../redux/actions/QuanLyPhongAction";
 import { layDanhSachViTriAction } from "../../../../redux/actions/QuanLyViTriAction";
 
@@ -17,28 +16,18 @@ export default function EditRoom(props) {
   useEffect(() => {
     dispatch(layDanhSachViTriAction());
   }, []);
-  const renderViTri = () => {
-    return arrViTri.map((viTri, index) => {
-      return (
-        <Option value={viTri._id} key={index}>
-          {viTri.province}
-        </Option>
-      );
-    });
-  };
 
   useEffect(() => {
     let { id } = props.match.params;
     dispatch(layThongTinChiTietPhong(id));
   }, []);
   const { chiTietPhong } = useSelector((state) => state.QuanLyPhongReducer);
-  // console.log({ chiTietPhong });
 
-  const provinceDefault = chiTietPhong.locationId?.province;
-  const index = arrViTri.findIndex((viTri) => {
-    return viTri.province === provinceDefault;
+  const locationDefault = arrViTri.find((vitri) => {
+    return vitri.province === chiTietPhong.locationId?.province;
   });
-  const locationDefault = arrViTri[index];
+
+  console.log({ locationDefault });
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -60,10 +49,10 @@ export default function EditRoom(props) {
       wifi: chiTietPhong.wifi,
       heating: chiTietPhong.heating,
       cableTV: chiTietPhong.cableTV,
-      locationId: locationDefault?._id,
+      locationId: "",
     },
     onSubmit: (values) => {
-      console.log({ values });
+      // console.log({ values });
       dispatch(capNhatThongTinPhongAction(values._id, values));
     },
   });
@@ -72,12 +61,6 @@ export default function EditRoom(props) {
     return (values) => {
       formik.setFieldValue(name, values);
     };
-  };
-
-  const handleChangeFile = (e) => {
-    let file = e.target.files[0];
-    console.log({ file });
-    formik.setFieldValue("image", file);
   };
 
   return (
@@ -107,7 +90,7 @@ export default function EditRoom(props) {
             onChange={handleSwitch("guests")}
             value={formik.values.guests}
             min={1}
-            max={4}
+            max={10}
           />
         </Form.Item>
         <Form.Item label="Phòng ngủ">
@@ -115,7 +98,7 @@ export default function EditRoom(props) {
             onChange={handleSwitch("bedRoom")}
             value={formik.values.bedRoom}
             min={1}
-            max={4}
+            max={10}
           />
         </Form.Item>
         <Form.Item label="Nhà tắm">
@@ -123,7 +106,7 @@ export default function EditRoom(props) {
             onChange={handleSwitch("bath")}
             value={formik.values.bath}
             min={1}
-            max={4}
+            max={10}
           />
         </Form.Item>
         <Form.Item label="Mô tả">
@@ -196,18 +179,20 @@ export default function EditRoom(props) {
             checked={formik.values.cableTV}
           />
         </Form.Item>
-        <Form.Item label="Hình ảnh">
-          <input type="file" onChange={handleChangeFile} />
-        </Form.Item>
         <Form.Item name="locationId" label="Vị trí">
           <Select
-            style={{
-              width: "100%",
-            }}
+            style={{ width: "100%" }}
             onChange={handleSwitch("locationId")}
+            defaultValue={locationDefault ? locationDefault?._id : null}
             allowClear
           >
-            {renderViTri()}
+            {arrViTri.map((viTri, index) => {
+              return (
+                <Option value={viTri?._id} key={index}>
+                  {viTri.province}
+                </Option>
+              );
+            })}
           </Select>
         </Form.Item>
 

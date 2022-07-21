@@ -14,7 +14,6 @@ export const XacThucNguoiDungReducer = (state = stateDefault, action) => {
   switch (action.type) {
     case DANG_NHAP_ACTION: {
       const { thongTinDangNhap } = action;
-
       localStorage.setItem(USER_LOGIN, JSON.stringify(thongTinDangNhap.user));
       localStorage.setItem(ACESSTOKEN, thongTinDangNhap.token); // cái token API trả về nó đã là string rồi
       // JSON.stringify nó chuyển qua string 1 lần nữa => nó bị 2 dấu "" token"" nó dư 1 ngoặc kép
