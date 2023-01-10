@@ -1,5 +1,6 @@
+
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { dangNhapAction } from "../../redux/actions/XacThucNguoiDungAction";
@@ -9,7 +10,7 @@ export default function Login(props) {
 
   const { userLogin } = useSelector((state) => state.XacThucNguoiDungReducer);
 
-  // console.log("userLogin", userLogin);
+  console.log("userLogin", userLogin);
 
   const formik = useFormik({
     initialValues: {
@@ -46,7 +47,7 @@ export default function Login(props) {
                 <label htmlFor="password" className="text-sm">
                   Mật khẩu
                 </label>
-                <a href="#" className="text-xs hover:underline text-gray-600">
+                <a href="/" className="text-xs hover:underline text-gray-600">
                   Quên mật khẩu?
                 </a>
               </div>
